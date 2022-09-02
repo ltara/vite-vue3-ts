@@ -1,4 +1,35 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, inject } from 'vue'
+import Epub from 'epubjs'
+import { File, BookMetaData } from '@/types'
+import { bookOperate } from '@/types/symbol'
+
+const bookMetaDataList = ref<BookMetaData[]>([])
+const defaultCover = '/default-cover.jpg'
+const coverUrl = ref(defaultCover)
+
+const { getAllBook } = inject(bookOperate, {})
+const books: Array<File> = await getAllBook()
+const fileRead = new FileReader()
+books.forEach((item) => {
+  fileRead.readAsArrayBuffer(item)
+  fileRead.onload = async function (e) {
+    const bookData = e.target?.result as ArrayBuffer
+    const book = Epub()
+    await book.open(bookData)
+    // 获取封面
+    const cover = await book.loaded.cover
+    const bookCover = await book.archive.createUrl(cover, { base64: false })
+    coverUrl.value = bookCover ?? coverUrl
+    // 获取元信息
+    const { title, creator } = book.packaging.metadata
+    bookMetaDataList.value.push({
+      title,
+      creator,
+    })
+  }
+})
+</script>
 
 <template>
   <div class="home-page-container">
@@ -7,14 +38,21 @@
         <h2 class="bookshelf-preview-header-title">我的书架</h2>
       </div>
       <div class="bookshelf-preview-body">
-        <div title="Electron实战：入门 进阶与性能优化" class="bookshelf-preview-item">
+        <div
+          v-for="bookMetaData in bookMetaDataList"
+          :key="bookMetaData.title"
+          :title="bookMetaData.title"
+          class="bookshelf-preview-item"
+        >
           <a href="#" class="bookshelf-preview-item-link"></a>
           <div class="bookshelf-preview-item-container">
-            <div class="bookshelf-preview-cover"></div>
+            <div class="bookshelf-preview-cover">
+              <el-image :src="coverUrl" alt="书籍封面" class="book-cover-img" />
+            </div>
             <div class="bookshelf-preview-content">
-              <p class="bookshelf-preview-title">Electron实战：入门 进阶与性能优化</p>
+              <p class="bookshelf-preview-title">{{ bookMetaData.title }}</p>
               <div>
-                <span class="bookshelf-preview-author">刘晓伦</span>
+                <span class="bookshelf-preview-author">{{ bookMetaData.creator }}</span>
               </div>
             </div>
           </div>
@@ -76,6 +114,14 @@
       box-shadow: 0 2px 16px rgb(0 0 0 / 8%);
       background: #d8d8d8;
       position: relative;
+      .book-cover-img {
+        vertical-align: top;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        background-color: #d8d8d8;
+        object-fit: cover;
+      }
     }
     &-content {
       padding: 0 0 0 24px;

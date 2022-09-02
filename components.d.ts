@@ -5,21 +5,21 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Container: typeof import('./src/components/Container.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElHeader: typeof import('element-plus/es')['ElHeader']
+    ElIcon: typeof import('element-plus/es')['ElIcon']
     ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElLink: typeof import('element-plus/es')['ElLink']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    HomeContainer: typeof import('./src/components/HomeContainer.vue')['default']
-    HomeNavBar: typeof import('./src/components/HomeNavBar.vue')['default']
-    HomePage: typeof import('./src/components/HomePage.vue')['default']
-    NavBarHome: typeof import('./src/components/NavBarHome.vue')['default']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    Upload: typeof import('./src/components/upload/index.vue')['default']
   }
 }
 

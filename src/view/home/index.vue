@@ -1,15 +1,17 @@
 <script lang="ts" setup>
-import HomeNavBar from './HomeNavBar.vue'
-import HomeContainer from './HomeContainer.vue'
+import NavBar from './NavBar.vue'
+import Container from './Container.vue'
 </script>
 
 <template>
   <el-container>
     <el-header class="nav-bar">
-      <HomeNavBar></HomeNavBar>
+      <NavBar></NavBar>
     </el-header>
     <el-main>
-      <HomeContainer></HomeContainer>
+      <Suspense>
+        <Container></Container>
+      </Suspense>
     </el-main>
   </el-container>
 </template>

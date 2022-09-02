@@ -1,5 +1,13 @@
 <script lang="ts" setup>
+import { ref } from 'vue'
+import Upload from '../../components/upload/index.vue'
+
 const url = '/logo.png'
+const upload = ref<any>(null)
+
+function handleUpload() {
+  upload.value.dialogVisible = true
+}
 </script>
 
 <template>
@@ -7,7 +15,7 @@ const url = '/logo.png'
     <div class="nav-bar-border">
       <div class="nav-bar-inner">
         <span class="nav-bar-placeholder-regular"></span>
-        <el-link type="default">上传</el-link>
+        <el-button type="primary" @click="handleUpload">上传</el-button>
       </div>
     </div>
   </div>
@@ -22,6 +30,7 @@ const url = '/logo.png'
       <span class="nav-bar-input-right"></span>
     </div>
   </div>
+  <Upload ref="upload"></Upload>
 </template>
 
 <style lang="less" scoped>
@@ -75,7 +84,7 @@ const url = '/logo.png'
       left: 20px;
       width: 20px;
       height: 20px;
-      background: url('../assets/images/search-magnifier-white.png');
+      background: url('@/assets/images/search-magnifier-white.png');
     }
     &-text {
       width: 100%;
@@ -99,8 +108,22 @@ const url = '/logo.png'
       right: 10px;
       width: 32px;
       height: 32px;
-      background: url('../assets/images/search-return-white.png');
+      background: url('@/assets/images/search-return-white.png');
     }
+  }
+}
+
+.upload-text {
+  font-size: 19px;
+  font-weight: 700;
+  color: #212832;
+  &-select-file {
+    color: #1b88ee;
+  }
+  &-tip {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #5d646e;
   }
 }
 </style>
