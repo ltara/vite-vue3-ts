@@ -14,4 +14,5 @@ module.exports = {
     },
   ],
   arrowParens: 'always',
+  vueIndentScriptAndStyle: false
 }
