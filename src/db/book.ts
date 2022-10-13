@@ -10,7 +10,8 @@ export async function getAllBook() {
   return db.getAll('book')
 }
 export async function addBook(key: string, val: File) {
-  return db.put('book', val, key)
+  db.put('book', val, key)
+  // console.log(val, key)
 }
 export async function delBook(key: string) {
   return db.delete('book', key)

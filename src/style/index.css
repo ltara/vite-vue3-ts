@@ -1,1 +1,7 @@
 @import url('./font.css');
+
+a {
+  text-decoration: none;
+  user-select: none;
+  color: #4a7ab0;
+}

@@ -1,34 +1,61 @@
 <script lang="ts" setup>
 import { ref, inject } from 'vue'
+import { router } from '@/routes'
 import Epub from 'epubjs'
+import md5 from 'md5'
 import { File, BookMetaData } from '@/types'
 import { bookOperate } from '@/types/symbol'
-
-const bookMetaDataList = ref<BookMetaData[]>([])
-const defaultCover = '/default-cover.jpg'
-const coverUrl = ref(defaultCover)
-
 const { getAllBook } = inject(bookOperate, {})
+
+// 从数据库获取所有书籍数据
 const books: Array<File> = await getAllBook()
-const fileRead = new FileReader()
-books.forEach((item) => {
-  fileRead.readAsArrayBuffer(item)
-  fileRead.onload = async function (e) {
-    const bookData = e.target?.result as ArrayBuffer
-    const book = Epub()
-    await book.open(bookData)
-    // 获取封面
-    const cover = await book.loaded.cover
-    const bookCover = await book.archive.createUrl(cover, { base64: false })
-    coverUrl.value = bookCover ?? coverUrl
-    // 获取元信息
-    const { title, creator } = book.packaging.metadata
-    bookMetaDataList.value.push({
-      title,
-      creator,
-    })
+
+// 初始化书籍元信息列表
+const bookMetaDataList = ref<BookMetaData[]>([])
+
+// 收集所有书籍元信息
+readBookMetaData(books, 4)
+
+/**
+ * 读取书籍元信息
+ * @param books 书籍数据
+ * @param index 书籍索引，展示数量
+ */
+function readBookMetaData(books: Array<File>, index: number) {
+  if (index > 0) {
+    const fileRead = new FileReader()
+    fileRead.readAsArrayBuffer(books[index])
+    fileRead.onload = async function (e) {
+      const bookData = fileRead.result as ArrayBuffer
+      const book = Epub()
+      await book.open(bookData)
+      // 获取封面
+      const defaultCover = '/default-cover.jpg' // 默认封面
+      const cover = await book.loaded.cover
+      const bookCover = await book.archive.createUrl(cover, { base64: false })
+      const coverUrl = bookCover ?? defaultCover
+      // 获取书名、作者
+      const { title, creator } = book.packaging.metadata
+      // 生成id
+      const id = md5(title)
+      bookMetaDataList.value.push({
+        id,
+        creator,
+        title,
+        coverUrl,
+      })
+      readBookMetaData(books, --index)
+    }
   }
-})
+}
+
+/**
+ * 跳转到对应的书籍阅读页
+ * @param id 书籍ids
+ */
+function HandleGoReaderPage(id: string) {
+  router.push(`/reader/${id}`)
+}
 </script>
 
 <template>
@@ -36,18 +63,26 @@ books.forEach((item) => {
     <div class="bookshelf-preview-container">
       <div class="bookshelf-preview-header">
         <h2 class="bookshelf-preview-header-title">我的书架</h2>
+        <a href="#" class="bookshelf-preview-header-link">
+          <span>查看我的书架</span>
+        </a>
       </div>
       <div class="bookshelf-preview-body">
         <div
           v-for="bookMetaData in bookMetaDataList"
-          :key="bookMetaData.title"
+          :key="bookMetaData.id"
           :title="bookMetaData.title"
           class="bookshelf-preview-item"
+          :class="!bookMetaData.id ? 'bookshelf-preview-item-empty' : ''"
         >
-          <a href="#" class="bookshelf-preview-item-link"></a>
+          <a
+            href="#"
+            class="bookshelf-preview-item-link"
+            @click="HandleGoReaderPage(bookMetaData.id)"
+          ></a>
           <div class="bookshelf-preview-item-container">
             <div class="bookshelf-preview-cover">
-              <el-image :src="coverUrl" alt="书籍封面" class="book-cover-img" />
+              <el-image :src="bookMetaData.coverUrl" alt="书籍封面" class="book-cover-img" />
             </div>
             <div class="bookshelf-preview-content">
               <p class="bookshelf-preview-title">{{ bookMetaData.title }}</p>
@@ -79,6 +114,25 @@ books.forEach((item) => {
         font-size: 20px;
         font-family: 'SourceHanSerifCN-Bold';
       }
+      &-link {
+        display: flex;
+        align-items: center;
+        float: right;
+        margin-top: -24px;
+        font-size: 15px;
+        color: #5d646e;
+      }
+      &-link::after {
+        content: '';
+        width: 7px;
+        height: 11px;
+        margin-left: 4px;
+        background: url('@/assets/images/arrow_right_white_in_white_theme.png') no-repeat;
+        background-size: 100%;
+      }
+      &-link:hover {
+        color: #212832;
+      }
     }
     &-body {
       display: flex;
@@ -103,6 +157,9 @@ books.forEach((item) => {
         display: table;
         padding: 24px;
         box-sizing: border-box;
+      }
+      &-empty {
+        opacity: 0;
       }
     }
     &-cover {
@@ -136,9 +193,6 @@ books.forEach((item) => {
       overflow: hidden;
       display: -webkit-box;
       text-overflow: ellipsis;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      -webkit-text-size-adjust: none;
       height: auto;
       max-height: 48px;
       word-break: break-all;
@@ -154,9 +208,6 @@ books.forEach((item) => {
       overflow: hidden;
       height: 22px;
       text-overflow: ellipsis;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-      -webkit-text-size-adjust: none;
       height: auto;
       max-height: 22px;
     }

@@ -66,10 +66,12 @@ function handleUpload() {
     &-img {
       width: 36px;
       height: 36px;
+      margin-right: 10px;
     }
     &-text {
-      font-size: 25px;
+      font-size: 28px;
       line-height: 36px;
+      font-family: 'SourceHanSerifCN-Bold';
     }
   }
   &-input {

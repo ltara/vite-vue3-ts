@@ -1,30 +1,29 @@
 import { createApp } from 'vue'
-import 'normalize.css'
+import { setupRouter } from './routes'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { initDataBase } from './db/index'
 import App from './App.vue'
+import 'normalize.css'
+import 'element-plus/dist/index.css'
 import './style/index.css'
-import db from './db/index'
-import { bookOperate } from '@/types/symbol'
 
-db.init()
+async function bootstrap() {
+  const app = createApp(App)
 
-const app = createApp(App)
+  // 初始化数据库
+  await initDataBase(app)
 
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
+  // 注册全局组件
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+  }
+  app.use(ElementPlus)
+
+  // 配置路由
+  setupRouter(app)
+
+  app.mount('#app')
 }
-const { getBook, getAllBook, addBook, delBook, clearBook, keysBook } = db
-// getBook, addBook, delBook, clearBook, keysBook
-app.provide(bookOperate, {
-  getBook,
-  getAllBook,
-  addBook,
-  delBook,
-  clearBook,
-  keysBook,
-})
 
-app.use(ElementPlus)
-app.mount('#app')
+bootstrap()

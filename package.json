@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.6",
+    "@types/md5": "^2.3.1",
     "canvas": "^2.9.3",
     "element-plus": "^2.2.9",
     "epubjs": "^0.3.93",
     "idb": "^7.0.2",
+    "md5": "^2.3.0",
     "normalize.css": "^8.0.1",
     "vue": "^3.2.25",
     "vue-router": "4"

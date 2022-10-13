@@ -168,6 +168,18 @@
   resolved "https://registry.npm.qianxin-inc.cn/@types/lodash/download/@types/lodash-4.14.184.tgz#23f96cd2a21a28e106dc24d825d4aa966de7a9fe"
   integrity sha1-I/ls0qIaKOEG3CTYJdSqlm3nqf4=
 
+"@types/md5@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.npm.qianxin-inc.cn/@types/md5/download/@types/md5-2.3.1.tgz#010bcf3bb50a2cff3a574cb1c0b4051a9c67d6bc"
+  integrity sha1-AQvPO7UKLP86V0yxwLQFGpxn1rw=
+  dependencies:
+    "@types/node" "*"
+
+"@types/node@*":
+  version "18.7.15"
+  resolved "https://registry.npm.qianxin-inc.cn/@types/node/download/@types/node-18.7.15.tgz#20ae1ec80c57ee844b469f968a1cd511d4088b29"
+  integrity sha1-IK4eyAxX7oRLRp+WihzVEdQIiyk=
+
 "@types/node@^18.7.14":
   version "18.7.14"
   resolved "https://registry.npm.qianxin-inc.cn/@types/node/download/@types/node-18.7.14.tgz#0fe081752a3333392d00586d815485a17c2cf3c9"
@@ -628,6 +640,11 @@ character-parser@^2.2.0:
   dependencies:
     is-regex "^1.0.3"
 
+charenc@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.npm.qianxin-inc.cn/charenc/download/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
+  integrity sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=
+
 chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.npm.qianxin-inc.cn/chokidar/download/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
@@ -708,6 +725,11 @@ cross-spawn@^7.0.2:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypt@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.npm.qianxin-inc.cn/crypt/download/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
+  integrity sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=
 
 cssesc@^3.0.0:
   version "3.0.0"
@@ -1475,6 +1497,11 @@ is-binary-path@~2.1.0:
   dependencies:
     binary-extensions "^2.0.0"
 
+is-buffer@~1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npm.qianxin-inc.cn/is-buffer/download/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
+  integrity sha1-76ouqdqg16suoTqXsritUf776L4=
+
 is-core-module@^2.8.1:
   version "2.9.0"
   resolved "https://registry.npm.qianxin-inc.cn/is-core-module/download/is-core-module-2.9.0.tgz#e1c34429cd51c6dd9e09e0799e396e27b19a9c69"
@@ -1701,6 +1728,15 @@ marks-pane@^1.0.9:
   version "1.0.9"
   resolved "https://registry.npm.qianxin-inc.cn/marks-pane/download/marks-pane-1.0.9.tgz#c0b5ab813384d8cd81faaeb3bbf3397dc809c1b3"
   integrity sha1-wLWrgTOE2M2B+q6zu/M5fcgJwbM=
+
+md5@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npm.qianxin-inc.cn/md5/download/md5-2.3.0.tgz#c3da9a6aae3a30b46b7b0c349b87b110dc3bda4f"
+  integrity sha1-w9qaaq46MLRreww0m4exENw72k8=
+  dependencies:
+    charenc "0.0.2"
+    crypt "0.0.2"
+    is-buffer "~1.1.6"
 
 memoize-one@^6.0.0:
   version "6.0.0"

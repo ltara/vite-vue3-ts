@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, defineExpose, inject } from 'vue'
+import { ref, inject } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 import { bookOperate } from '@/types/symbol'

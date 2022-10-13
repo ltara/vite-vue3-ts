@@ -28,6 +28,8 @@ export interface BookOperate {
 }
 
 export interface BookMetaData {
+  id: string
   creator: string
   title: string
+  coverUrl: string
 }
