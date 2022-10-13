@@ -14,7 +14,7 @@ const books: Array<File> = await getAllBook()
 const bookMetaDataList = ref<BookMetaData[]>([])
 
 // 收集所有书籍元信息
-readBookMetaData(books, 4)
+readBookMetaData(books, books.length >= 4 ? 4 : books.length - 1)
 
 /**
  * 读取书籍元信息
@@ -22,7 +22,7 @@ readBookMetaData(books, 4)
  * @param index 书籍索引，展示数量
  */
 function readBookMetaData(books: Array<File>, index: number) {
-  if (index > 0) {
+  if (index >= 0) {
     const fileRead = new FileReader()
     fileRead.readAsArrayBuffer(books[index])
     fileRead.onload = async function (e) {
@@ -51,7 +51,7 @@ function readBookMetaData(books: Array<File>, index: number) {
 
 /**
  * 跳转到对应的书籍阅读页
- * @param id 书籍ids
+ * @param id 书籍id
  */
 function HandleGoReaderPage(id: string) {
   router.push(`/reader/${id}`)
@@ -135,16 +135,17 @@ function HandleGoReaderPage(id: string) {
       }
     }
     &-body {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 1fr;
+      column-gap: 16px;
     }
     &-item {
       position: relative;
       height: 169px;
       overflow: hidden;
       border-radius: 6px;
-      width: 23.5%;
+      width: 100%;
       background-color: #f6f7f9;
       &-link {
         position: absolute;
